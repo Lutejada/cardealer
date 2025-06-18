@@ -1,11 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { v4 as uuid } from 'uuid';
+import { Brand } from './entities/brand.entity';
+
 
 @Injectable()
 export class BrandsService {
+  fillCarsWithSeedData(BRANDS_SEED: Brand[]) {
+    throw new Error('Method not implemented.');
+  }
+
+  private brands: Brand[] = [
+    {
+      id: uuid(),
+      name: 'Toyota',
+      createdAt: new Date().getTime(),
+    }
+  ];
+
   create(createBrandDto: CreateBrandDto) {
-    return 'This action adds a new brand';
+    const brand = new Brand({
+      id: Date.now().toString(),
+      ...createBrandDto,
+      createdAt: Date.now(),
+    });
+    this.brands.push(brand);
+    return brand;
   }
 
   findAll() {
